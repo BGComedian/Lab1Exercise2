@@ -4,6 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.RadioGroup;
+
 
 
 public class MainActivity extends Activity {
@@ -36,4 +41,48 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void convert(View v) {
+        EditText etInput = (EditText) findViewById(R.id.etInput);
+        String s = etInput.getText().toString();
+
+        RadioGroup rgFrom = (RadioGroup)findViewById(R.id.rgFrom);
+        int selFrom = rgFrom.getCheckedRadioButtonId();
+
+        RadioGroup rgTo = (RadioGroup)findViewById(R.id.rgTo);
+        int selTo = rgTo.getCheckedRadioButtonId();
+
+        double result = Double.parseDouble(s);
+
+        if (selFrom == R.id.rbFrmC) { //The user wants to convert from Celsius.
+            if(selTo == R.id.rbToC)
+                result = result;
+            if(selTo == R.id.rbToF)
+                result = ((result * (9.0/5.0)) +32);
+            if(selTo == R.id.rbToK)
+                result = result + 273.15;
+        }
+
+        if (selFrom == R.id.rbFrmF) {
+            if(selTo == R.id.rbToC)
+                result = ((result - 32) * (5.0/9.0));
+            if(selTo == R.id.rbToF)
+                result = result;
+            if(selTo == R.id.rbToK)
+                result = ((result + 459.67) * (5.0/9.0));
+        }
+
+        if (selFrom == R.id.rbFrmK) {
+            if(selTo == R.id.rbToC)
+                result = result-273.15;
+            if(selTo == R.id.rbToF)
+                result = ((result) * (9.0/5.0)) -3 459.67;
+            if(selTo == R.id.rbToK)
+                result = result;
+        }
+
+        TextView tv = (TextView)findViewById(R.id.tvOutput);
+        tv.setText(Double.toString(result));
+    }
+
 }
